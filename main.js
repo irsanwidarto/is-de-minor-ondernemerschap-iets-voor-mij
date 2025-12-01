@@ -65,16 +65,16 @@ const encode = (data) => {
         .join("&");
 }
 
-function renderEmailForm() {
+function renderEmailForm(customTitle, customText) {
     const container = document.createElement('div')
     container.className = 'card fade-in'
 
     const title = document.createElement('h2')
-    title.textContent = "Geweldig! Laten we contact houden."
+    title.textContent = customTitle || "Geweldig! Laten we contact houden."
     title.style.marginBottom = '1rem'
 
     const text = document.createElement('p')
-    text.textContent = "Laat je email achter voor meer informatie over de minor."
+    text.textContent = customText || "Laat je email achter voor meer informatie over de minor."
 
     const form = document.createElement('form')
     // Netlify attributes for the dynamic form
@@ -148,29 +148,10 @@ function renderEmailForm() {
 }
 
 function renderEndScreen() {
-    const container = document.createElement('div')
-    container.className = 'card fade-in'
-
-    const title = document.createElement('h2')
-    title.textContent = "Misschien volgend jaar?"
-
-    const text = document.createElement('p')
-    text.textContent = "Het lijkt erop dat de minor nu niet perfect past, maar kijk gerust rond op onze website."
-
-    const link = document.createElement('a')
-    link.href = "#"
-    link.textContent = "Terug naar begin"
-    link.className = 'link'
-    link.onclick = (e) => {
-        e.preventDefault()
-        currentStep = 0
-        render()
-    }
-
-    container.appendChild(title)
-    container.appendChild(text)
-    container.appendChild(link)
-    app.appendChild(container)
+    renderEmailForm(
+        "Succes met het vinden van een geschikte minor!",
+        "Wil je toch op de hoogte blijven van de minor Ondernemerschap? Vul dan hieronder je e-mail adres in."
+    )
 }
 
 function renderSuccessScreen() {
