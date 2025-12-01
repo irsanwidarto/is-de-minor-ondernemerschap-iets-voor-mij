@@ -4,6 +4,7 @@ import { questions } from './questions.js'
 const app = document.querySelector('#app')
 
 let currentStep = 0
+let userPath = []
 // Steps: 0, 1, 2 (Questions), 3 (Email), 4 (End/No Match)
 
 function render() {
@@ -34,6 +35,7 @@ function renderQuestion(question) {
     yesBtn.className = 'btn btn-primary'
     yesBtn.textContent = 'Ja'
     yesBtn.onclick = () => {
+        userPath.push(`Vraag ${question.id}: Ja`)
         currentStep = 3 // Go to Email
         render()
     }
@@ -42,6 +44,7 @@ function renderQuestion(question) {
     noBtn.className = 'btn btn-secondary'
     noBtn.textContent = 'Nee'
     noBtn.onclick = () => {
+        userPath.push(`Vraag ${question.id}: Nee`)
         if (currentStep < questions.length - 1) {
             currentStep++
         } else {
@@ -93,7 +96,11 @@ function renderEmailForm(customTitle, customText) {
             // Check if we are on localhost
             if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                 console.log('Localhost detected: Mocking Netlify form submission');
-                console.log('Form data:', { "form-name": "email-capture", "email": input.value });
+                console.log('Form data:', {
+                    "form-name": "email-capture",
+                    "email": input.value,
+                    "submission-path": userPath.join(' -> ')
+                });
                 // Simulate network delay
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 // Mock success
@@ -107,7 +114,8 @@ function renderEmailForm(customTitle, customText) {
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: encode({
                     "form-name": "email-capture",
-                    "email": input.value
+                    "email": input.value,
+                    "submission-path": userPath.join(' -> ')
                 })
             });
 
@@ -138,7 +146,13 @@ function renderEmailForm(customTitle, customText) {
     submitBtn.textContent = 'Verstuur'
     submitBtn.style.marginTop = '1rem'
 
+    const pathInput = document.createElement('input')
+    pathInput.type = 'hidden'
+    pathInput.name = 'submission-path'
+    pathInput.value = userPath.join(' -> ')
+
     form.appendChild(input)
+    form.appendChild(pathInput)
     form.appendChild(submitBtn)
 
     container.appendChild(title)
