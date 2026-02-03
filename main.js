@@ -2,12 +2,45 @@ import './style.css'
 import { questions } from './questions.js'
 
 const app = document.querySelector('#app')
+const backgroundLayer = document.querySelector('#background-layer')
 
 let currentStep = 0
 let userPath = []
-// Steps: 0, 1, 2 (Questions), 3 (Email), 4 (End/No Match)
+// Steps: 0, 1, 2 (Questions), 3 (Email), 4 (End/No Match), 5 (Success)
+
+// Preload images to avoid flickering
+const bgImages = [
+    '/bg-question-1.png',
+    '/bg-question-2.png',
+    '/bg-question-3.png',
+];
+
+// Shuffle images
+const shuffledImages = [...bgImages].sort(() => Math.random() - 0.5);
+
+shuffledImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+});
+
+function updateBackground() {
+    let imageUrl = '';
+
+    // Determine image based on step
+    if (currentStep < questions.length) {
+        // Steps 0, 1, 2 correspond to Questions 1, 2, 3
+        imageUrl = `url('${shuffledImages[currentStep]}')`;
+    } else {
+        // For Email (3), End (4), or Success (5)
+        // Reuse the last image (associated with step 2 / question 3)
+        imageUrl = `url('${shuffledImages[2]}')`;
+    }
+
+    backgroundLayer.style.backgroundImage = imageUrl;
+}
 
 function render() {
+    updateBackground();
     app.innerHTML = ''
 
     if (currentStep < questions.length) {
