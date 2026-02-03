@@ -62,11 +62,11 @@ body {
 }
 
 .pan-right {
-    animation: pan-right 5s linear infinite alternate;
+    animation: pan-right 15s linear infinite alternate;
 }
 
 .pan-left {
-    animation: pan-left 5s linear infinite alternate;
+    animation: pan-left 15s linear infinite alternate;
 }
 
 /* Optional: Add a dark overlay so text remains readable on photos */
