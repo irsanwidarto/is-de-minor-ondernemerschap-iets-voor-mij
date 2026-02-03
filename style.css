@@ -37,6 +37,38 @@ body {
     transition: background-image 0.5s ease-in-out;
 }
 
+@keyframes pan-right {
+    from {
+        background-position: 0% 50%;
+        transform: scale(1);
+    }
+
+    to {
+        background-position: 100% 50%;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes pan-left {
+    from {
+        background-position: 100% 50%;
+        transform: scale(1);
+    }
+
+    to {
+        background-position: 0% 50%;
+        transform: scale(1.1);
+    }
+}
+
+.pan-right {
+    animation: pan-right 5s linear infinite alternate;
+}
+
+.pan-left {
+    animation: pan-left 5s linear infinite alternate;
+}
+
 /* Optional: Add a dark overlay so text remains readable on photos */
 #background-layer::after {
     content: '';

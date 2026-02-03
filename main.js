@@ -37,6 +37,13 @@ function updateBackground() {
     }
 
     backgroundLayer.style.backgroundImage = imageUrl;
+
+    // Randomize animation direction
+    backgroundLayer.classList.remove('pan-left', 'pan-right');
+    // Trigger reflow to restart animation
+    void backgroundLayer.offsetWidth;
+    const animationClass = Math.random() > 0.5 ? 'pan-right' : 'pan-left';
+    backgroundLayer.classList.add(animationClass);
 }
 
 function render() {
